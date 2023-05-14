@@ -1,3 +1,2 @@
-# 9th_SWHackathon
+# Grad_proj
 
-2022/09/16~2022/09/18
