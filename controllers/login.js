@@ -17,6 +17,7 @@ module.exports = {
                     'name' : row[0].name,
                     'gender' : row[0].gender,
                     'birth' : row[0].birth,
+                    'serial_id': row[0].serial_id
                 }
                 bcrypt.compare(req.body.pw, row[0].pw, (err, result) => {
                     console.log(result)
