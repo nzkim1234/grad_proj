@@ -7,7 +7,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
-const openBoxRouter = require('./routes/openBox');
+const connectRouter = require('./routes/connect');
 const boxControlRouter = require('./routes/boxControl');
 const qrImageControlRouter = require('./routes/showQr');
 const app = express();
@@ -31,7 +31,7 @@ app
 .use('/users', usersRouter)
 .use('/register', registerRouter)
 .use('/login', loginRouter)
-.use('/openbox', openBoxRouter)
+.use('/connect', connectRouter)
 .use('/boxcontrol', boxControlRouter)
 .use('/qrimage', qrImageControlRouter);
 
