@@ -9,7 +9,7 @@ const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const connectRouter = require('./routes/connect');
 const vitaminRouter = require('./routes/vitamin');
-const qrImageControlRouter = require('./routes/showQr');
+const showProfileRouter = require('./routes/showProfile');
 const app = express();
 const db = require('./config/config')
 require('dotenv').config();
@@ -33,7 +33,7 @@ app
 .use('/login', loginRouter)
 .use('/connect', connectRouter)
 .use('/vitatmin', vitaminRouter)
-.use('/qrimage', qrImageControlRouter);
+.use('/showprofile', showProfileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
