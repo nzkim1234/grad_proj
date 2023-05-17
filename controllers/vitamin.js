@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = {
-    postInfoFromBox : async (req, res, next) => {
+    postAddVitamin : async (req, res, next) => {
         const [boxNum, boxAptNum, boxStatus] = [req.body.boxNum, req.body.aptNum, req.body.boxStatus];
         db.query('SELECT id FROM member_table WHERE aptNum=?', boxAptNum, (err, row) => {
             if (err) return res.status(400).end();
@@ -39,7 +39,7 @@ module.exports = {
         });
     },
 
-    postQrInfoFromBox : async (req, res, next) => {
+    getVitamin: async (req, res, next) => {
         const [ownerId, boxNum, boxAptNum] = [req.body.ownerId, req.body.boxNum, req.body.aptNum];
         const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${boxNum}.png`));
         

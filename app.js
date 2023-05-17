@@ -8,7 +8,7 @@ const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const connectRouter = require('./routes/connect');
-const boxControlRouter = require('./routes/boxControl');
+const vitaminRouter = require('./routes/vitamin');
 const qrImageControlRouter = require('./routes/showQr');
 const app = express();
 const db = require('./config/config')
@@ -32,7 +32,7 @@ app
 .use('/register', registerRouter)
 .use('/login', loginRouter)
 .use('/connect', connectRouter)
-.use('/boxcontrol', boxControlRouter)
+.use('/vitatmin', vitaminRouter)
 .use('/qrimage', qrImageControlRouter);
 
 // catch 404 and forward to error handler
