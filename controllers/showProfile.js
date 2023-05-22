@@ -7,9 +7,9 @@ module.exports = {
         console.log(req);
         console.log(req.query)
         console.log(`${path.resolve(__dirname, "../public/images/")}/${profile_img}.png`);
-        const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}.png`));
+        const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}`));
         if (fileExist){
-            const image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}.png`);
+            const image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}`);
             return res.status(200).send(image);
         }
         else {

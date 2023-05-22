@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
       const ext = path.extname(file.originalname);
-      cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext);
+      cb(null, path.basename(file.originalname, ext) + "_" + 'image' + ext);
     },
   });
   
@@ -87,17 +87,35 @@ module.exports = {
         })
     },
     postChangeInfo: async(req, res, next) => {
-        const [userSeq, userName, userBirth, userGender, userProfileImgName] = [req.body.seq, req.body.name, req.body.birth, req.body.gender, req.body.profileImgName];
-        console.log(userSeq, userName, userBirth, userGender, userProfileImgName);
-        db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, userProfileImgName, userSeq], (err, row) => {
-            if(err) {
-                console.log(err);
-                return res.status(400).end();
+        const uploadImage = upload.single("image");
+        uploadImage(req, res, (err) => {
+            const [userSeq, userName, userBirth, userGender] = [req.body.seq, req.body.name, req.body.birth, req.body.gender];
+            if (err) {
+              console.log(err);
+              return res.status(500).send("Error occurred while uploading image or missing data");
             }
             else {
-                return res.status(200).end();
+                db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, req.file.filename , userSeq], (err, row) => {
+                    if(err) {
+                        console.log(err);
+                        return res.status(400).end();
+                    }
+                    else {
+                        return res.status(200).end();
+                    }
+                })
             }
-        })
+          });
+        // // console.log(userSeq, userName, userBirth, userGender, userProfileImgName);
+        // db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, userProfileImgName, userSeq], (err, row) => {
+        //     if(err) {
+        //         console.log(err);
+        //         return res.status(400).end();
+        //     }
+        //     else {
+        //         return res.status(200).end();
+        //     }
+        // })
     },
     postChangePorfileImg: async(req, res, next) => {
         console.log(req.file);

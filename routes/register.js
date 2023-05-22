@@ -22,7 +22,12 @@ router.post('/', controller.postRegisterForm);
 router.post('/changeinfo', controller.postChangeInfo);
 // router.post('/changeprofileimg', controller.postChangePorfileImg);
 router.post("/changeprofileimg", upload.single("image"), (req, res, next) => {
-    console.log(req.file);
+    console.log(req.body.data);
     return res.send(200);
   });
+// router.post("/changeprofileimg", upload.single("image"), controller.postChangeInfo, (req, res, next) => {
+//     console.log(req.file);
+//     return res.status(200).send('Success');
+// });
+  
 module.exports = router;
