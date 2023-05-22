@@ -75,18 +75,27 @@ module.exports = {
         })
     },
     postChangeInfo: async(req, res, next) => {
-        const [userSeq, userName, userBirth, userGender, user_ProfileImg, user_ProfileImgName] = [req.body.seq, req.body.name, req.body.birth, req.body.gender, req.body.profileImg, req.body.profileImgName];
-        console.log(userSeq, userName, userBirth, userGender, user_ProfileImg);
-        upload.single(user_ProfileImg) (req, res, function(err){
-            console.log(err);   
-        });
-        console.log('end');
-        db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, user_ProfileImgName, userSeq], (err, row) => {
+        const [userSeq, userName, userBirth, userGender, userProfileImgName] = [req.body.seq, req.body.name, req.body.birth, req.body.gender, req.body.profileImgName];
+        console.log(userSeq, userName, userBirth, userGender, userProfileImgName);
+        db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, userProfileImgName, userSeq], (err, row) => {
             if(err) {
                 console.log(err);
                 return res.status(400).end();
             }
-            return res.status(200).end();
+            else {
+                return res.status(200).end();
+            }
+        })
+    },
+    postChangePorfileImg: async(req, res, next) => {
+        upload.single(req.body.userProfileImg)(req, res, function(err) {
+            if(err) {
+                console.log(err);
+                return res.status(500);
+            }
+            else {
+                console.log('uploaded!');
+            }
         })
     }
 }
