@@ -77,7 +77,7 @@ module.exports = {
     postChangeInfo: async(req, res, next) => {
         const [userSeq, userName, userBirth, userGender, user_ProfileImg, user_ProfileImgName] = [req.body.seq, req.body.name, req.body.birth, req.body.gender, req.body.profileImg, req.body.profileImgName];
         console.log(userSeq, userName, userBirth, userGender, user_ProfileImg);
-        upload.single('?', user_ProfileImg) (req, res, function(err){
+        upload.single(user_ProfileImg) (req, res, function(err){
             console.log(err);   
         });
         console.log('end');
