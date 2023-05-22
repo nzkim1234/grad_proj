@@ -6,13 +6,13 @@ module.exports = {
         const profile_img = req.query.profile_img;
         console.log(`${path.resolve(__dirname, "../public/images/")}/${profile_img}.png`);
         const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}_image.png`));
+        const image = null;
         if (fileExist){
-            const image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}_image.png`);
-            return res.status(200).send(image);
+            image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}_image.png`);
         }
         else {
-            //const image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
-            return res.status(400).end();
+            image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
         }
+        return res.status(200).send(image);
     }
 }
