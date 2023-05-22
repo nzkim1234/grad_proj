@@ -1,8 +1,20 @@
 const db = require('../config/config');
 const bcrypt = require('bcrypt');
 const multer = require('multer')
-const upload = multer({dest: 'public/images'})
-
+const path = require("path");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, "public/images/");
+    },
+    filename: function (req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext);
+    },
+  });
+  
+const upload = multer({ storage: storage });
+  
+  
 module.exports = {
     postRegisterForm: async (req, res, next) => {
         const [userId, userPw, userName, userBirth, userGender, user_SerialId] = [req.body.id, req.body.pw, req.body.name, req.body.birth, req.body.gender, req.body.serialid];
@@ -88,14 +100,7 @@ module.exports = {
         })
     },
     postChangePorfileImg: async(req, res, next) => {
-        upload.single("image")(req, res, function(err) {
-            if(err) {
-                console.log(err);
-                return res.status(500);
-            }
-            else {
-                console.log('uploaded!');
-            }
-        })
+        console.log(req.file);
+        upload.single("1234");
     }
 }
