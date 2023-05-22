@@ -88,7 +88,7 @@ module.exports = {
         })
     },
     postChangePorfileImg: async(req, res, next) => {
-        upload.single(req.body.userProfileImg)(req, res, function(err) {
+        upload.single("image")(req, res, function(err) {
             if(err) {
                 console.log(err);
                 return res.status(500);
