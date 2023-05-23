@@ -7,13 +7,11 @@ module.exports = {
         console.log(req.body)
         const keysArray = Object.keys(req.body);
         db.query(`SELECT * FROM ${req.body.seq}_data WHERE prod_name = ?`, req.body.prod_name, (err, row) => {
-            if (row.length > 0) { 
-                console.log('test');
+            if (row.length > 0) {
                 console.log('product already exists');
                 return res.send(400).end();
             }
             else {
-                console.log(`INSERT INTO ${req.body.seq}_data (${keysArray[1]}) VALUES (${req.body[keysArray[1]]})`);
                 console.log(keysArray.length);
                 db.query(`INSERT INTO ${req.body.seq}_data (prod_name) VALUES (?)`,req.body.prod_name, (err, row) =>{
                     if (err) {
@@ -25,6 +23,9 @@ module.exports = {
                     }
                 });
                 for (let i = 2; i < keysArray.length; i++){ 
+                    if (keysArray[i] == 'prod_name' || keysArray[i] == 'seq'){
+                        continue
+                    }
                     db.query(`UPDATE ${req.body.seq}_data SET ${keysArray[i]} = ? WHERE (prod_name = ?)`,[req.body[keysArray[i]], req.body.prod_name], (err, row) =>{ 
                         if(err) {
                             console.log(err);
