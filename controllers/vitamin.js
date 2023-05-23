@@ -1,5 +1,4 @@
 const db = require('../config/config');
-const qrcode = require('qrcode');
 const path = require('path');
 const fs = require('fs');
 
@@ -8,7 +7,7 @@ module.exports = {
         console.log(req.body)
         const keysArray = Object.keys(req.body);
         db.query(`SELECT * FROM ${req.body.seq}_data WHERE prod_name = ?`, req.body.prod_name, (err, row) => {
-            if (row.length > 0) {
+            if (row.length > 0) { 
                 console.log('test');
                 console.log('product already exists');
                 return res.send(400).end();
