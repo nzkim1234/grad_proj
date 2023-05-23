@@ -32,7 +32,7 @@ app
 .use('/register', registerRouter)
 .use('/login', loginRouter)
 .use('/connect', connectRouter)
-.use('/vitatmin', vitaminRouter)
+.use('/vitamin', vitaminRouter)
 .use('/showprofile', showProfileRouter);
 
 // catch 404 and forward to error handler

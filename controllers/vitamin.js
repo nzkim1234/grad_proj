@@ -5,36 +5,37 @@ const fs = require('fs');
 
 module.exports = {
     postAddVitamin : async (req, res, next) => {
-        const [boxNum, boxAptNum, boxStatus] = [req.body.boxNum, req.body.aptNum, req.body.boxStatus];
-        db.query('SELECT id FROM member_table WHERE aptNum=?', boxAptNum, (err, row) => {
-            if (err) return res.status(400).end();
-
+        console.log(req.body)
+        const keysArray = Object.keys(req.body);
+        db.query(`SELECT * FROM ${req.body.seq}_data WHERE prod_name = ?`, req.body.prod_name, (err, row) => {
             if (row.length > 0) {
-                const ownerId = row[0].id;
-                console.log(boxStatus);
-                db.query('UPDATE box_table SET boxNum = ?, boxEmpty = ?, boxPwd = ?, boxAptNum = ?, ownerName = ?, updatedDate = NOW() WHERE boxNum = ?', [boxNum, boxStatus, 1234, boxAptNum, ownerId, boxNum], (err, row) =>{
-                    if (err) return res.status(400).end();
-
-                    if (row) {
-                        const qrData = {
-                            "boxNum" : boxNum,
-                            "aptNum" : boxAptNum,
-                            "ownerId" : ownerId
-                        };
-                        qrcode.toFile(`${path.resolve(__dirname, "../public/images/")}/${boxNum}.png`, JSON.stringify(qrData), (err) => {
-                            if (err) return res.status(400).end();
-                            
-                            else {
-                                console.log(JSON.stringify(qrData));
-                                return res.status(200).end();
-                            }
-                        })
-                    }
-                });     
+                console.log('test');
+                console.log('product already exists');
+                return res.send(400).end();
             }
-
             else {
-                return res.status(400).end();
+                console.log(`INSERT INTO ${req.body.seq}_data (${keysArray[1]}) VALUES (${req.body[keysArray[1]]})`);
+                console.log(keysArray.length);
+                db.query(`INSERT INTO ${req.body.seq}_data (prod_name) VALUES (?)`,req.body.prod_name, (err, row) =>{
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log('added product')
+                    }
+                });
+                for (let i = 2; i < keysArray.length; i++){ 
+                    db.query(`UPDATE ${req.body.seq}_data SET ${keysArray[i]} = ? WHERE (prod_name = ?)`,[req.body[keysArray[i]], req.body.prod_name], (err, row) =>{ 
+                        if(err) {
+                            console.log(err);
+                            return res.send(400).end();
+                        }
+                        else{
+                            console.log('done');
+                            return res.send(200).end();
+                        }
+                    });
+                }   
             }
         });
     },

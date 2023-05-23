@@ -106,19 +106,5 @@ module.exports = {
                 })
             }
           });
-        // // console.log(userSeq, userName, userBirth, userGender, userProfileImgName);
-        // db.query('update users SET name = ?, birth = ?, gender = ?, default_img = ? where (seq = ?)', [userName, userBirth, userGender, userProfileImgName, userSeq], (err, row) => {
-        //     if(err) {
-        //         console.log(err);
-        //         return res.status(400).end();
-        //     }
-        //     else {
-        //         return res.status(200).end();
-        //     }
-        // })
     },
-    postChangePorfileImg: async(req, res, next) => {
-        console.log(req.file);
-        upload.single("1234");
-    }
 }
