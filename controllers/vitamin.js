@@ -41,35 +41,17 @@ module.exports = {
     },
 
     getVitamin: async (req, res, next) => {
-        const [ownerId, boxNum, boxAptNum] = [req.body.ownerId, req.body.boxNum, req.body.aptNum];
-        const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${boxNum}.png`));
-        
-        if (fileExist){
-            fs.rmSync(`${path.resolve(__dirname, "../public/images/")}/${boxNum}.png`);
-            db.query('UPDATE box_table SET boxNum = ?, boxEmpty = ?, boxPwd = ?, boxAptNum = ?, ownerName = ?, updatedDate = ? WHERE boxNum = ?', [boxNum, 0, null, null, null, null, boxNum], (err, row) =>{
-                if (err) return res.status(400).end();
-
-                if (row) return res.status(200).send({ openedbox : boxNum});
-                else return res.status(400).end();
-            });
-        }
-        else return res.status(400).end();
-    },
-
-    postEmptyBox : async (req, res, next) => {
-        db.query('SELECT * FROM box_table WHERE boxEmpty=?', req.body.find, (err, row) => {
-            console.log(row);
-            if (err) {
-                return res.status(400).end();
+        const seq = req.query.seq;
+        db.query(`SELECT * FROM ${seq}_data`, (err, row) => {
+            if (err){
+                console.log(err);
+                return res.send(400);
             }
 
-            if (row.length > 0) {
-                return res.status(200).send({ emptyBox : row[0].boxNum});
+            if (row) {
+                console.log(row)
+                return res.send(row).end();
             }
-            else {
-                return res.status(400).send({emptyBox : 0});
-            }
-            
-        })
+        });
     }
 }
