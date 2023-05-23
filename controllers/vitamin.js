@@ -18,6 +18,7 @@ module.exports = {
                 db.query(`INSERT INTO ${req.body.seq}_data (prod_name) VALUES (?)`,req.body.prod_name, (err, row) =>{
                     if (err) {
                         console.log(err);
+                        return res.send(400).end();
                     }
                     else {
                         console.log('added product')
@@ -29,12 +30,10 @@ module.exports = {
                             console.log(err);
                             return res.send(400).end();
                         }
-                        else{
-                            console.log('done');
-                            return res.send(200).end();
-                        }
                     });
-                }   
+                }
+                console.log('done');
+                return res.send(200).end();   
             }
         });
     },
