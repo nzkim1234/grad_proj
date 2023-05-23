@@ -21,7 +21,8 @@ module.exports = {
                     'profile_img' : row[0].profile_img
                 }
                 bcrypt.compare(req.body.pw, row[0].pw, (err, result) => {
-                    console.log(result)
+                    console.log(result);
+                    console.log(sendInfo);
                     if(result) {
                         return res.status(200).send(sendInfo);
                     }
