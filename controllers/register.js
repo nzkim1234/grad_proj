@@ -44,6 +44,7 @@ module.exports = {
                                     db.query(`CREATE TABLE ${seq_db} (
                                         prod_name varchar(45) NOT NULL,
                                         intake_per_day int unsigned DEFAULT 0,
+                                        taken int unsigned DEFAULT 0,
                                         vitaminA int unsigned DEFAULT 0,
                                         vitaminD int unsigned DEFAULT 0,
                                         vitaminE int unsigned DEFAULT 0,
