@@ -22,7 +22,7 @@ module.exports = {
                         console.log('added product')
                     }
                 });
-                for (let i = 2; i < keysArray.length; i++){ 
+                for (let i = 0; i < keysArray.length; i++){ 
                     if (keysArray[i] == 'prod_name' || keysArray[i] == 'seq'){
                         continue
                     }
