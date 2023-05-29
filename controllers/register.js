@@ -76,22 +76,22 @@ module.exports = {
                                             }
                                             else{
                                                 db.query(`CREATE TABLE ${seq_alarm_db} (
-                                                        alarm_name VARCHAR(45) NOT NULL,
-                                                        time TIME NOT NULL,
-                                                        repeat VARCHAR(45) NOT NULL,
-                                                        box INT NOT NULL,
-                                                        vitamin VARCHAR(45) NOT NULL,
-                                                        PRIMARY KEY (alarm_name),
-                                                        UNIQUE KEY alarm_name_UNIQUE (alarm_name)
-                                                )`, (err, row) => {
-                                                    if(err) {
-                                                        console.log(err);
-                                                        return res.status(400).end();
-                                                    }
-                                                    else {
-                                                        console.log('db made');
-                                                        return res.status(200).end();
-                                                    }
+                                                    alarm_name VARCHAR(45) NOT NULL,
+                                                    time TIME NOT NULL,
+                                                    repeat VARCHAR(45) NOT NULL,
+                                                    box INT NOT NULL,
+                                                    vitamin VARCHAR(45) NOT NULL,
+                                                    PRIMARY KEY (alarm_name),
+                                                    UNIQUE KEY alarm_name_UNIQUE (alarm_name)
+                                                    )`, (err, row) => {
+                                                        if(err) {
+                                                            console.log(err);
+                                                            return res.status(400).end();
+                                                        }
+                                                        else {
+                                                            console.log('db made');
+                                                            return res.status(200).end();
+                                                        }
                                                 })
                                                 
                                             }
