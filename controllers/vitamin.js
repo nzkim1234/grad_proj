@@ -56,7 +56,7 @@ module.exports = {
 
    postRemoveVitamin: async (req, res, next) => {
         const [seq, prod_name] = [req.body.seq, req.body.prod_name]       
-        db.query(`DELETE FROM ${seq}_data WHERE (prod_name = ${prod_name})`, (err, row) => {
+        db.query(`DELETE FROM ${seq}_data WHERE (prod_name = '${prod_name}')`, (err, row) => {
             if (err){
                 console.log(err);
                 return res.send(400);
