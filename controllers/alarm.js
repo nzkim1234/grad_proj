@@ -3,7 +3,8 @@ const db = require('../config/config');
 module.exports = {
     postAddAlarm: async(req, res, next) => {
         const [seq, time, days, alarm_name, box, vitamin] = [req.body.seq, req.body.time, req.body.days, req.body.alarmname, req.body.box, req.body.vitamin];
-        db.query(`INSERT INTO ${seq}_alarm (time, days, alarm_name, box, vitamin) VALUES (${time}, ${days}, ${alarm_name}, ${box}, ${vitamin})`, (err, row) => {
+        console.log(seq, time, days, alarm_name, box, vitamin);
+        db.query(`INSERT INTO ${seq}_alarm (alarm_name, days, box, time, vitamin) VALUES (${alarm_name}, ${days}, ${box}, ${time}, ${vitamin})`, (err, row) => {
             if(err) {
                 console.log(err)
                 return res.send(400).send(err).end();
