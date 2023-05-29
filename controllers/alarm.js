@@ -17,7 +17,18 @@ module.exports = {
     },
 
     getAlarm: async(req, res, next) => {
+        const seq = req.query.seq;
+        db.query(`SELECT * FROM ${seq}_alarm`, (err, row) => {
+            if (err){
+                console.log(err);
+                return res.send(400);
+            }
 
+            if (row) {
+                console.log(row)
+                return res.send(row).end();
+            }
+        });
     },
     
     postRemoveAlarm: async(req, res, next) => {
