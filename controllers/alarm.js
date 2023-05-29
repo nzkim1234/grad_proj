@@ -32,7 +32,15 @@ module.exports = {
     },
     
     postRemoveAlarm: async(req, res, next) => {
-
+        const [seq, alarm_name] = [req.body.seq, req.body.alarmname];
+        db.query(`DELETE FROM ${seq}_alarm WHERE(alarm_name = ?)`, alarm_name, (err, row) => {
+            if(err){
+                return res.send(400).end();
+            }
+            else{
+                return res.send(200).end();
+            }
+        })
     },
     
     postEditAlarm: async(req, res, next) => {
