@@ -40,8 +40,9 @@ module.exports = {
                             else {
                                 db.query('SELECT seq FROM users WHERE id=?', userId, (err, row) => {
                                     const seq = row[0].seq;
-                                    const seq_db = seq + '_data'
-                                    db.query(`CREATE TABLE ${seq_db} (
+                                    const seq_user_db = seq + '_data';
+                                    const seq_alarm_db = seq + '_alarm';
+                                    db.query(`CREATE TABLE ${seq_user_db} (
                                         prod_name varchar(45) NOT NULL,
                                         intake_per_day int unsigned DEFAULT 0,
                                         taken int unsigned DEFAULT 0,
@@ -74,8 +75,25 @@ module.exports = {
                                                 return res.status(400).end();
                                             }
                                             else{
-                                                console.log("db_made")
-                                                return res.status(200).end();
+                                                db.query(`CREATE TABLE ${seq_alarm_db} (
+                                                        alarm_name VARCHAR(45) NOT NULL,
+                                                        time TIME NOT NULL,
+                                                        repeat VARCHAR(45) NOT NULL,
+                                                        box INT NOT NULL,
+                                                        vitamin VARCHAR(45) NOT NULL,
+                                                        PRIMARY KEY (alarm_name),
+                                                        UNIQUE KEY alarm_num_UNIQUE (alarm_name)
+                                                )`, (err, row) => {
+                                                    if(err) {
+                                                        console.log(err);
+                                                        return res.status(400).end();
+                                                    }
+                                                    else {
+                                                        console.log('db made');
+                                                        return res.status(200).end();
+                                                    }
+                                                })
+                                                
                                             }
                                     })
                                 })

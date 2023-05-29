@@ -11,6 +11,7 @@ const connectRouter = require('./routes/connect');
 const vitaminRouter = require('./routes/vitamin');
 const showProfileRouter = require('./routes/showProfile');
 const sendImageRouter = require('./routes/sendImage');
+const alarmRouter = require('./routes/alarm')
 const app = express();
 const db = require('./config/config')
 require('dotenv').config();
@@ -35,7 +36,8 @@ app
 .use('/connect', connectRouter)
 .use('/vitamin', vitaminRouter)
 .use('/showprofile', showProfileRouter)
-.use('/sendimage', sendImageRouter);
+.use('/sendimage', sendImageRouter)
+.use('/alarm', alarmRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
