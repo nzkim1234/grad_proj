@@ -82,7 +82,7 @@ module.exports = {
                                                         box INT NOT NULL,
                                                         vitamin VARCHAR(45) NOT NULL,
                                                         PRIMARY KEY (alarm_name),
-                                                        UNIQUE KEY alarm_num_UNIQUE (alarm_name)
+                                                        UNIQUE KEY alarm_name_UNIQUE (alarm_name)
                                                 )`, (err, row) => {
                                                     if(err) {
                                                         console.log(err);
