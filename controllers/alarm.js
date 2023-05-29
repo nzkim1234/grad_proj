@@ -5,7 +5,8 @@ module.exports = {
         const [seq, time, days, alarm_name, box, vitamin] = [req.body.seq, req.body.time, req.body.days, req.body.alarmname, req.body.box, req.body.vitamin];
         db.query(`INSERT INTO ${seq}_alarm (time, days, alarm_name, box, vitamin) VALUES (${time}, ${days}, ${alarm_name}, ${box}, ${vitamin})`, (err, row) => {
             if(err) {
-                return res.send(400).end();
+                console.log(err)
+                return res.send(400).send(err).end();
             }
             else{
                 return res.send(200).end();
