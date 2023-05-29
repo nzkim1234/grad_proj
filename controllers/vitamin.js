@@ -54,8 +54,8 @@ module.exports = {
         });
     },
 
-   getRemoveVitamin: async (req, res, next) => {
-        const [seq, vitamin] = [req.query.seq, req.query.vitamin];
+   postRemoveVitamin: async (req, res, next) => {
+        const [seq, vitamin] = [req.body.seq, req.body.vitamin]       
         db.query(`DELETE FROM ${seq}_data WHERE (prod_name = ${vitamin})`, (err, row) => {
             if (err){
                 console.log(err);

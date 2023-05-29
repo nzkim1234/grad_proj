@@ -4,5 +4,5 @@ const controller = require('../controllers/vitamin');
 
 router.post('/add', controller.postAddVitamin);
 router.get('/get', controller.getVitamin); 
-router.get('/remove', controller.getRemoveVitamin); 
+router.post('/remove', controller.postRemoveVitamin); 
 module.exports = router;
