@@ -80,6 +80,7 @@ module.exports = {
                                                     alarm_time time NOT NULL, 
                                                     days varchar(45) NOT NULL,  
                                                     box int NOT NULL, 
+                                                    time time NOT NULL,
                                                     vitamin varchar(45) NOT NULL, 
                                                     PRIMARY KEY (alarm_name), 
                                                     UNIQUE KEY alarm_num_UNIQUE (alarm_name)
