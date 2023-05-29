@@ -52,5 +52,18 @@ module.exports = {
                 return res.send(row).end();
             }
         });
-    }
+    },
+
+   getRemoveVitamin: async (req, res, next) => {
+        const [seq, vitamin] = [req.query.seq, req.query.vitamin];
+        db.query(`DELETE FROM ${seq}_data WHERE (prod_name = ${vitamin})`, (err, row) => {
+            if (err){
+                console.log(err);
+                return res.send(400);
+            }
+            else{
+                return res.send(200).end();
+            }
+        });
+    },
 }
