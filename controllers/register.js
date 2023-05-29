@@ -77,7 +77,7 @@ module.exports = {
                                             else{
                                                 db.query(`CREATE TABLE ${seq_alarm_db} (
                                                     alarm_name varchar(45) NOT NULL, 
-                                                    alarm_time time NOT NULL, 
+                                                    alarm_time varchar(45) NOT NULL, 
                                                     days varchar(45) NOT NULL,  
                                                     box int NOT NULL, 
                                                     vitamin varchar(45) NOT NULL, 
