@@ -76,14 +76,14 @@ module.exports = {
                                             }
                                             else{
                                                 db.query(`CREATE TABLE ${seq_alarm_db} (
-                                                    alarm_name VARCHAR(45) NOT NULL,
-                                                    time TIME NOT NULL,
-                                                    repeat VARCHAR(45) NOT NULL,
-                                                    box INT NOT NULL,
-                                                    vitamin VARCHAR(45) NOT NULL,
-                                                    PRIMARY KEY (alarm_name),
-                                                    UNIQUE KEY alarm_name_UNIQUE (alarm_name)
-                                                    )`, (err, row) => {
+                                                    alarm_name varchar(45) NOT NULL, 
+                                                    alarm_time time NOT NULL, 
+                                                    days varchar(45) NOT NULL,  
+                                                    box int NOT NULL, 
+                                                    vitamin varchar(45) NOT NULL, 
+                                                    PRIMARY KEY (alarm_name), 
+                                                    UNIQUE KEY alarm_num_UNIQUE (alarm_name)
+                                                  )`, (err, row) => {
                                                         if(err) {
                                                             console.log(err);
                                                             return res.status(400).end();
@@ -92,18 +92,18 @@ module.exports = {
                                                             console.log('db made');
                                                             return res.status(200).end();
                                                         }
-                                                })
+                                                });
                                                 
                                             }
-                                    })
-                                })
+                                    });
+                                });
                             }
-                        })
+                        });
                                 
                     }
-                })
+                });
             }
-        })
+        });
     },
     postChangeInfo: async(req, res, next) => {
         const uploadImage = upload.single("image");
@@ -122,7 +122,7 @@ module.exports = {
                     else {
                         return res.status(200).end();
                     }
-                })
+                });
             }
           });
     },
