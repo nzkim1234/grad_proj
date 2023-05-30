@@ -51,6 +51,8 @@ module.exports = {
                 image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
                 console.log(row.length)
                 for(i = 0; i < row.length; i++) {
+                    console.log(i);
+                    console.log(row[i]);
                     row[i].push(image);
                 }
                 console.log(row);
