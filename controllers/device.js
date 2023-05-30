@@ -26,7 +26,7 @@ client.on('message', function (topic, message) {
 
 module.exports = {
     postSendDevice : async(req, res, next) => {
-        const [box, intake] = [req.body.box, req.body.intake];
+        const [seq, box, intake] = [req.body.seq, req.body.box, req.body.intake];
         client.publish('todevice', box+intake, (err) => {
             if (err) {
             console.log(err);
