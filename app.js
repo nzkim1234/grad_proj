@@ -17,22 +17,6 @@ const app = express();
 const db = require('./config/config')
 require('dotenv').config();
 
-const mqtt = require('mqtt')
-const client  = mqtt.connect('localhost')
-
-client.on('connect', function () {
-  client.subscribe('presence', function (err) {
-    if (!err) {
-      client.publish('presence', 'Hello mqtt')
-    }
-  })
-})
-
-client.on('message', function (topic, message) {
-  // message is Buffer
-  console.log(message.toString())
-  client.end()
-})
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 // view engine setup
