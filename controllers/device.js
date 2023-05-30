@@ -8,16 +8,8 @@ const client  = mqtt.connect({
   });
 
 client.on('connect', function () {
-  client.subscribe('fromdevice', function (err) {
-    if (!err) {
-      client.publish('fromdevice', 'formdevice mqtt connected')
-    }
-  })
-  client.subscribe('todevice', function (err) {
-    if (!err) {
-      client.publish('todevice', 'todeivce mqtt connected')
-    }
-  })
+  client.subscribe('fromdevice', function (err) {})
+  client.subscribe('todevice', function (err) {})
 })
 
 client.on('message', function (topic, message) {
@@ -31,6 +23,7 @@ client.on('message', function (topic, message) {
             db.query(`UPDATE ${seq}_data SET taken = ${taken} WHERE (prod_name = '${prod_name}');`)
             break;
         case 'todevice':
+            console.log(message.toString())
             break;
         default:
             break;
