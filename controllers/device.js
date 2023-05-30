@@ -1,5 +1,5 @@
 const db = require('../config/config');
-const mqtt = requite('mqtt');
+const mqtt = require('mqtt');
 const client  = mqtt.connect({
     port: 1883,
     host: 'localhost',
