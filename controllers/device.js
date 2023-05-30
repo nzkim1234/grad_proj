@@ -25,12 +25,18 @@ client.on('message', function (topic, message) {
 });
 
 module.exports = {
-    getActiveDevice : async(req, res, next) => {
-        const [box, intake] = [req.query.box, req.query.intake];
-        client.publish('todevice', box+intake);
-        client.on('message', function (topic, message) {
-            console.log('34', message.toString())
+    postSendDevice : async(req, res, next) => {
+        const [box, intake] = [req.body.box, req.body.intake];
+        client.publish('todevice', box+intake, (err) => {
+            if (err) {
+            console.log(err);
+            return res.send(400).end();
+            }
+            else {
+                console.log("success!");
+                return res.send(200).end();
+            }
         });
-        return res.send(200).end();
+        
     }
 }
