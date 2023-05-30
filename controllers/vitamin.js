@@ -1,6 +1,7 @@
 const db = require('../config/config');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 
 module.exports = {
     postAddVitamin : async (req, res, next) => {
@@ -48,7 +49,17 @@ module.exports = {
             }
 
             if (row) {
+
                 image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
+                sharp(image)
+                    .toBuffer()
+                    .then(dataBuffer => {
+                        console.log(dataBuffer);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+                    
                 console.log(row.length)
                 for(i = 0; i < row.length; i++) {
                     console.log(i);
