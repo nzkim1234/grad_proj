@@ -49,15 +49,13 @@ module.exports = {
             }
 
             if (row) {
-
-                image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
                 console.log(row.length)
                 for(i = 0; i < row.length; i++) {
                     console.log(i);
                     console.log(row[i]);
                     console.log(typeof(image));
-                    const test = image.toString('base64');
-                    row[i]['image'] = test;
+                    image = fs.readFileSync(`${path.resolve(__dirname, "../public/vImages/")}/${row[i].seq}_${row[i].prod_name}.png`);
+                    row[i]['image'] = image.toString('base64');
                 }
                 console.log(row);
                 return res.send(row).end();
