@@ -21,13 +21,16 @@ client.on('connect', function () {
 })
 
 client.on('message', function (topic, message) {
-    console.log(message.toString())
+    console.log('1234', message.toString())
 });
 
 module.exports = {
     getActiveDevice : async(req, res, next) => {
         const [box, intake] = [req.query.box, req.query.intake];
         client.publish('todevice', box+intake);
+        client.on('message', function (topic, message) {
+            console.log('34', message.toString())
+        });
         return res.send(200).end();
     }
 }
