@@ -39,7 +39,7 @@ app
 .use('/showprofile', showProfileRouter)
 .use('/sendimage', sendImageRouter)
 .use('/alarm', alarmRouter)
-.use('/deivce', deviceRouter);
+.use('/device', deviceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
