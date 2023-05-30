@@ -43,6 +43,7 @@ module.exports = {
                                     const seq_user_db = seq + '_data';
                                     const seq_alarm_db = seq + '_alarm';
                                     db.query(`CREATE TABLE ${seq_user_db} (
+                                        vseq int NOT NULL AUTO_INCREMENT,
                                         prod_name varchar(45) NOT NULL,
                                         intake_per_day int unsigned DEFAULT 0,
                                         taken int unsigned DEFAULT 0,
@@ -68,7 +69,9 @@ module.exports = {
                                         manganese int unsigned DEFAULT 0,
                                         molybdenum int unsigned DEFAULT 0,
                                         chrome int unsigned DEFAULT 0,
-                                        UNIQUE KEY prod_name_UNIQUE (prod_name)
+                                        PRIMARY KEY (vseq,prod_name),
+                                        UNIQUE KEY prod_name_UNIQUE (prod_name),
+                                        UNIQUE KEY vseq_UNIQUE (vseq)
                                       )`, (err, row) =>{
                                             if(err) {
                                                 console.log(err);
