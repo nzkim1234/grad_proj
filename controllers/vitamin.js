@@ -51,21 +51,12 @@ module.exports = {
             if (row) {
 
                 image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
-                sharp(image)
-                    .toBuffer()
-                    .then(dataBuffer => {
-                        console.log(dataBuffer);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-                    
                 console.log(row.length)
                 for(i = 0; i < row.length; i++) {
                     console.log(i);
                     console.log(row[i]);
                     console.log(typeof(image));
-                    row[i]['image'] = image;
+                    row[i]['image'] = image.tostring('base64');
                 }
                 console.log(row);
                 return res.send(row).end();
