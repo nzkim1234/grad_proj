@@ -11,11 +11,28 @@ const connectRouter = require('./routes/connect');
 const vitaminRouter = require('./routes/vitamin');
 const showProfileRouter = require('./routes/showProfile');
 const sendImageRouter = require('./routes/sendImage');
-const alarmRouter = require('./routes/alarm')
+const alarmRouter = require('./routes/alarm');
+const deviceRouter = require('./routes/device');
 const app = express();
 const db = require('./config/config')
 require('dotenv').config();
 
+const mqtt = require('mqtt')
+const client  = mqtt.connect('localhost')
+
+client.on('connect', function () {
+  client.subscribe('presence', function (err) {
+    if (!err) {
+      client.publish('presence', 'Hello mqtt')
+    }
+  })
+})
+
+client.on('message', function (topic, message) {
+  // message is Buffer
+  console.log(message.toString())
+  client.end()
+})
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false }));
 // view engine setup
@@ -37,7 +54,8 @@ app
 .use('/vitamin', vitaminRouter)
 .use('/showprofile', showProfileRouter)
 .use('/sendimage', sendImageRouter)
-.use('/alarm', alarmRouter);
+.use('/alarm', alarmRouter)
+.use('/deivce', deviceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
