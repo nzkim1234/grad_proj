@@ -53,7 +53,7 @@ module.exports = {
                 for(i = 0; i < row.length; i++) {
                     console.log(i);
                     console.log(row[i]);
-                    row[i].push(image);
+                    row[i]['image'] = image;
                 }
                 console.log(row);
                 return res.send(row).end();
