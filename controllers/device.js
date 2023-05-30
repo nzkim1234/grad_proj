@@ -21,13 +21,26 @@ client.on('connect', function () {
 })
 
 client.on('message', function (topic, message) {
-    console.log('1234', message.toString())
+    switch (topic) {
+        case 'fromdevice':
+            const receive = message.toString().split(" ");
+            console.log(receive);
+            const prod_name = receive[0]
+            const seq = parseInt(receive[1])
+            const taken = parseInt(receive[2])
+            db.query(`UPDATE ${seq}_data SET taken = ${taken} WHERE (prod_name = '${prod_name}');`)
+            break;
+        case 'todevice':
+            break;
+        default:
+            break;
+    }
 });
 
 module.exports = {
-    postSendDevice : async(req, res, next) => {
-        const [seq, box, intake] = [req.body.seq, req.body.box, req.body.intake];
-        client.publish('todevice', box+intake, (err) => {
+    postSendDevice: async(req, res, next) => {
+        const [seq, box, intake, product_name] = [req.body.seq, req.body.box, req.body.intake, req.body.productname];
+        client.publish('todevice', `${seq} ${box} ${intake} ${product_name}`, (err) => {
             if (err) {
             console.log(err);
             return res.send(400).end();
@@ -37,6 +50,8 @@ module.exports = {
                 return res.send(200).end();
             }
         });
-        
+    },
+    getFromDevice : async(req, res, next) => {
+        const [seq, box] = [req.query.seq, req.query.box];   
     }
 }
