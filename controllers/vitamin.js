@@ -49,11 +49,7 @@ module.exports = {
             }
 
             if (row) {
-                console.log(row.length)
-                for(i = 0; i < row.length; i++) {
-                    console.log(i);
-                    console.log(row[i]);
-                    console.log(typeof(image));
+                for(i = 0; i < row.length; i++) { 
                     image = fs.readFileSync(`${path.resolve(__dirname, "../public/vImages/")}/${seq}_${row[i].prod_name}_image.png`);
                     row[i]['image'] = image.toString('base64');
                 }
