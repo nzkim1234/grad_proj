@@ -10,7 +10,12 @@ const client  = mqtt.connect({
 client.on('connect', function () {
   client.subscribe('fromdevice', function (err) {
     if (!err) {
-      client.publish('fromdevice', 'mqtt connected')
+      client.publish('fromdevice', 'formdevice mqtt connected')
+    }
+  })
+  client.subscribe('todevice', function (err) {
+    if (!err) {
+      client.publish('todevice', 'todeivce mqtt connected')
     }
   })
 })
@@ -21,7 +26,7 @@ client.on('message', function (topic, message) {
 
 module.exports = {
     getActiveDevice : async(req, res, next) => {
-        const box = req.box;
-        console.log(box);
+        const [box, intake] = [req.query.box, req.query.intake];
+        client.publish('todevice', box+intake);
     }
 }
