@@ -48,7 +48,12 @@ module.exports = {
             }
 
             if (row) {
+                image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
                 console.log(row)
+                for(i = 0; i < length(row); i ++) {
+                    row[i].append(image);
+                }
+                console.log(row);
                 return res.send(row).end();
             }
         });
