@@ -49,7 +49,7 @@ module.exports = {
 
             if (row) {
                 image = fs.readFileSync(`${path.resolve(__dirname, "../public/images/")}/default_image.png`);
-                console.log(row)
+                console.log(length(row))
                 for(i = 0; i < length(row); i ++) {
                     row[i].append(image);
                 }
