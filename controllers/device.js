@@ -20,14 +20,14 @@ client.on('connect', function () {
   })
 })
 
-// client.on('message', function (topic, message) {
-//     console.log(message.toString())
-// });
+client.on('message', function (topic, message) {
+    console.log(message.toString())
+});
+
 module.exports = {
     getActiveDevice : async(req, res, next) => {
         const [box, intake] = [req.query.box, req.query.intake];
         client.publish('todevice', box+intake);
-        console.log(box+intake)
         return res.send(200).end();
     }
 }
