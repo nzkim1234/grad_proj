@@ -53,6 +53,7 @@ module.exports = {
                 for(i = 0; i < row.length; i++) {
                     console.log(i);
                     console.log(row[i]);
+                    console.lot(typeof(image));
                     row[i]['image'] = image;
                 }
                 console.log(row);
