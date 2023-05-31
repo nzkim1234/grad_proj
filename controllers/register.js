@@ -95,7 +95,7 @@ module.exports = {
                                                             db.query(`CREATE TABLE ${seq_box_db} (
                                                                 boxnum int NOT NULL,
                                                                 contain_vitamin int NOT NULL DEFAULT 0,
-                                                                PRIMARY KEY boxnum),
+                                                                PRIMARY KEY (boxnum),
                                                                 UNIQUE KEY boxnum_UNIQUE (boxnum)
                                                               )`, (err, row) => {
                                                                 if(err) {
