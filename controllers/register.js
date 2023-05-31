@@ -42,6 +42,7 @@ module.exports = {
                                     const seq = row[0].seq;
                                     const seq_user_db = seq + '_data';
                                     const seq_alarm_db = seq + '_alarm';
+                                    const seq_box_db = seq + '_boxs';
                                     db.query(`CREATE TABLE ${seq_user_db} (
                                         vseq int NOT NULL AUTO_INCREMENT,
                                         prod_name varchar(45) NOT NULL,
@@ -82,8 +83,7 @@ module.exports = {
                                                     alarm_name varchar(45) NOT NULL, 
                                                     alarm_time varchar(45) NOT NULL, 
                                                     days varchar(45) NOT NULL,  
-                                                    box int NOT NULL, 
-                                                    vitamin varchar(45) NOT NULL, 
+                                                    box varchar(45) NOT NULL, 
                                                     PRIMARY KEY (alarm_name), 
                                                     UNIQUE KEY alarm_num_UNIQUE (alarm_name)
                                                   )`, (err, row) => {
@@ -92,17 +92,28 @@ module.exports = {
                                                             return res.status(400).end();
                                                         }
                                                         else {
-                                                            console.log('db made');
-                                                            return res.status(200).end();
+                                                            db.query(`CREATE TABLE ${seq_box_db} (
+                                                                boxnum int NOT NULL,
+                                                                contain_vitamin int NOT NULL DEFAULT 0,
+                                                                PRIMARY KEY boxnum),
+                                                                UNIQUE KEY boxnum_UNIQUE (boxnum)
+                                                              )`, (err, row) => {
+                                                                if(err) {
+                                                                    console.log(err);
+                                                                    return res.status(400).end();
+                                                                }
+                                                                else {
+                                                                    console.log('db made');
+                                                                    return res.status(200).end();
+                                                                }
+                                                            });
                                                         }
                                                 });
-                                                
                                             }
                                     });
                                 });
                             }
                         });
-                                
                     }
                 });
             }

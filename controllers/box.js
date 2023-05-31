@@ -3,7 +3,7 @@ const db = require('../config/config');
 module.exports = {
     postBox : async (req, res, next) => {
         const [boxnum, vseq, seq] = [req.body.boxnum, req.body.vseq, req.body.seq];
-        db.query(`UPDATE boxs SET contain_vitamin = ${vseq}, user_seq = ${seq} WHERE (boxnum = ${boxnum})`, (err, row) => {
+        db.query(`UPDATE ${seq}_boxs SET contain_vitamin = ${vseq} WHERE (boxnum = ${boxnum})`, (err, row) => {
             if (err){
                 return res.send(400).end();
             }
@@ -13,7 +13,7 @@ module.exports = {
         });
     },
     getBox : async(req, res, next) => {
-        db.query(`SELECT * FROM boxs`, (err, row) => {
+        db.query(`SELECT * FROM ${req.query.seq}_boxs`, (err, row) => {
             if (err){
                 console.log(err);
                 return res.send(400);
