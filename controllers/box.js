@@ -2,8 +2,8 @@ const db = require('../config/config');
 
 module.exports = {
     postBox : async (req, res, next) => {
-        const [boxnum, vseq] = [req.body.boxnum, req.body.vseq];
-        db.query(`UPDATE boxs SET contain_vitamin = ${vseq} WHERE (boxnum = ${boxnum})`, (err, row) => {
+        const [boxnum, vseq, seq] = [req.body.boxnum, req.body.vseq, req.body.seq];
+        db.query(`UPDATE boxs SET contain_vitamin = ${vseq}, user_ser = ${seq} WHERE (boxnum = ${boxnum})`, (err, row) => {
             if (err){
                 return res.send(400).end();
             }
