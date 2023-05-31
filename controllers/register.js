@@ -103,7 +103,12 @@ module.exports = {
                                                                     return res.status(400).end();
                                                                 }
                                                                 else {
-                                                                    console.log('db made');
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (1)`);
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (2)`);
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (3)`);
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (4)`);
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (5)`);
+                                                                    db.query(`INSERT INTO ${seq_box_db} (boxnum) VALUES (6)`);
                                                                     return res.status(200).end();
                                                                 }
                                                             });
