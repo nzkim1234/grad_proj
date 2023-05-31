@@ -13,6 +13,7 @@ const showProfileRouter = require('./routes/showProfile');
 const sendImageRouter = require('./routes/sendImage');
 const alarmRouter = require('./routes/alarm');
 const deviceRouter = require('./routes/device');
+const boxRouter = require('./routes/box');
 const app = express();
 const db = require('./config/config')
 require('dotenv').config();
@@ -39,7 +40,8 @@ app
 .use('/showprofile', showProfileRouter)
 .use('/sendimage', sendImageRouter)
 .use('/alarm', alarmRouter)
-.use('/device', deviceRouter);
+.use('/device', deviceRouter)
+.use('/box', boxRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
