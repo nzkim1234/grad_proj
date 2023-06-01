@@ -4,6 +4,12 @@ const fs = require('fs');
 const sharp = require('sharp');
 
 module.exports = {
+    postSearchVitamin: async(req, res, next) => {
+        const result = require('child_process').spawn('python', ['./find.py', '샌트롬 ']);
+        console.log(result);
+        return res.send(result).end();
+    },
+
     postAddVitamin : async (req, res, next) => {
         console.log(req.body)
         const keysArray = Object.keys(req.body);
