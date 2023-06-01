@@ -43,7 +43,7 @@ module.exports = {
     },
     
     postEditAlarm: async(req, res, next) => {
-        const [seq, time, days, new_alarm_name, box, vitamin, alarm_name] = [req.body.seq, req.body.time, req.body.days, req.body.newalarmname, req.body.box, req.body.vitamin, req.body.alarmname];
+        const [seq, time, days, new_alarm_name, box, alarm_name] = [req.body.seq, req.body.time, req.body.days, req.body.newalarmname, req.body.box, req.body.alarmname];
         db.query(`update ${seq}_alarm SET alarm_name = ?, alarm_time = ?, days = ?, box = ? where (alarm_name = ?)`, [new_alarm_name, time, days, box, alarm_name], (err, row) => {
             if(err) {
                 console.log(err);
