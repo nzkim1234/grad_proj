@@ -82,4 +82,13 @@ module.exports = {
             }
         });
     },
+
+    getRecommendVitamin: async(req, res, next) => {
+        const [seq, vitamin_list, vitaminContain] = [req.query.seq, req.query.vitaminlist, req.query.vitamincontain];
+        const spawn = require('child_process').spawn;
+        const result = spawn('python3', ['controllers/recommend.py', vitamin_list, vitaminContain], {
+            env:{PYTHONPATH: '/home/ubuntu/.local/lib/python3.10/site-packages'}
+        });
+    }
+
 }

@@ -6,4 +6,5 @@ router.get('/search',controller.getSearchVitamin);
 router.post('/add', controller.postAddVitamin);
 router.get('/get', controller.getVitamin); 
 router.post('/remove', controller.postRemoveVitamin); 
+router.get('/recommend', controller.getRecommendVitamin); 
 module.exports = router;
