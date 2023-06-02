@@ -16,6 +16,7 @@ import sys
 import numpy as np
 import random
 import re
+import heapq
 
 # pd.describe_option()
 pd.set_option('display.max_rows', None)
@@ -223,51 +224,55 @@ for i in new_str:
     key += 1
     del [[dfa1]]
 
-bb = []
-rec = []
-for i in range(0, len(dfa0)):
-  num = 0
-  for j in new_str:
-    if j in dfa0['STDR_STND'][i]:
-      num += 1
-  bb.append(num)
-for i in range(6):
-  if len(new_str) == 1:
-    rec.append(dfa0['PRDLST_NM'][random.randrange(0, len(dfa0))])
-  elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
-    del bb[bb.index(max(bb))]
-    rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
-  else:
-    rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
-    # print(bb.index(max(bb)),max(bb))
-    del bb[bb.index(max(bb))]
-del rec[0]
+# bb = []
+# rec = []
+# for i in range(0, len(dfa0)):
+#   num = 0
+#   for j in new_str:
+#     if j in dfa0['STDR_STND'][i]:
+#       num += 1
+#   bb.append(num)
+# for i in range(6):
+#   if len(new_str) == 1:
+#     rec.append(dfa0['PRDLST_NM'][random.randrange(0, len(dfa0))])
+#   elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
+#     del bb[bb.index(max(bb))]
+#     rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
+#   else:
+#     rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
+#     # print(bb.index(max(bb)),max(bb))
+#     del bb[bb.index(max(bb))]
+# del rec[0]
 
-bb = []
-rec = []
-for i in range(0, len(dfa0)):
-  num = 0
-  for j in new_str:
-    if j in dfa0['STDR_STND'][i]:
-      num += 1
-  bb.append(num)
-for i in range(6):
-  if len(new_str) == 1:
-    rec.append(dfa0.loc[random.randrange(0, len(dfa0))])
-  elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
-    del bb[bb.index(max(bb))]
-    rec.append(dfa0.loc[bb.index(max(bb))])
-  else:
-    rec.append(dfa0.loc[bb.index(max(bb))].to_list())
-    # print(bb.index(max(bb)),max(bb))
-    del bb[bb.index(max(bb))]
-del rec[0]
+# bb = []
+# rec = []
+# for i in range(0, len(dfa0)):
+#   num = 0
+#   for j in new_str:
+#     if j in dfa0['STDR_STND'][i]:
+#       num += 1
+#   bb.append(num)
+# for i in range(6):
+#   if len(new_str) == 1:
+#     rec.append(dfa0.loc[random.randrange(0, len(dfa0))])
+#   elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
+#     del bb[bb.index(max(bb))]
+#     rec.append(dfa0.loc[bb.index(max(bb))])
+#   else:
+#     rec.append(dfa0.loc[bb.index(max(bb))].to_list())
+#     # print(bb.index(max(bb)),max(bb))
+#     del bb[bb.index(max(bb))]
+# del rec[0]
 
-for i in range(0, len(rec)):
+rc = dfa0.columns.values.tolist() + dfa0.values.tolist()
+rc.remove('PRDLST_NM')
+rc.remove('STDR_STND')
+
+for i in range(0, len(rc)):
   nutri.update({}.fromkeys(nutri, 0))
   aa = []
-  aa = rec[i][1].split('n')
-  for j in range(0, len(rec[i][1].split('n'))):
+  aa = rc[i][1].split(r'\n')
+  for j in range(0, len(rc[i][1].split(r'\n'))):
     aa[j] = aa[j].replace('｛',' ')
     aa[j] = aa[j].replace('｝',' ')
     aa[j] = aa[j].replace(',','')
@@ -300,31 +305,55 @@ for i in range(0, len(rec)):
           ccc[num] = ccc[num].replace(m, dic[m])
           nutri[dic[m]] = float(re.findall(r'\d+(?:[.]\d+)?', ccc[num])[0])
           num += 1        
-  rec[i][1] = nutri
-  rec[i][1] = nutri.copy()
-print(rec)
+  rc[i][1] = nutri
+  rc[i][1] = nutri.copy()
 
-# # 현재 영양소 상태 계산
-# current_nutrients = my.copy()
-# for nutrient in rec:
-#     nutrient_info = nutrient[1]
-#     for key, value in nutrient_info.items():
-#         current_nutrients[key] += value
+# 부족한 영양소 찾기
 
-# # 부족한 영양소 찾기
-# def find_deficient_nutrients(nutrients, daily_values):
-#     deficient_nutrients = {}
-#     for key, value in nutrients.items():
-#         if value < daily_values[key]:
-#             deficient_amount = daily_values[key] - value
-#             deficient_nutrients[key] = deficient_amount
-#     return deficient_nutrients
+def find_deficient_nutrients(nutrients, daily_values):
+  deficient_nutrients = {}
+  for key, value in nutrients.items():
+    if value < daily_values[key]:
+      deficient_amount = daily_values[key] - value
+      deficient_nutrients[key] = deficient_amount
+  return deficient_nutrients
 
-# deficient_nutrients = find_deficient_nutrients(current_nutrients, day_male)  # 혹은 day_female
+# 현재 영양소 상태 계산
 
-# if len(deficient_nutrients) == 0:
-#     print("부족한 영양소가 없습니다!")
-# else:
-#     print("부족한 영양소:")
-#     for key, value in deficient_nutrients.items():
-#         print(f"{dic_adv[key]}: {value}")
+total_p = []
+
+for nutrient in rc:
+  current_nutrients = my.copy()
+  nutrient_info = nutrient[1]
+  for key, value in nutrient_info.items():
+      current_nutrients[key] += value
+
+  deficient_nutrients = find_deficient_nutrients(current_nutrients, day_male)  # 혹은 day_female
+
+  total = 0
+  if len(deficient_nutrients) == 0:
+    print("부족한 영양소가 없습니다!")
+  else:
+    # print("부족한 영양소:")
+    for key, value in deficient_nutrients.items():
+      # print(f"{dic_adv[key]}: {value}/{day_male[key]}")
+      # print(f"{dic_adv[key]}: {value/day_male[key]*100}")
+      total += value/day_male[key]*100
+  # print(total)
+  total_p.append(total)
+
+a = heapq.nsmallest(20, enumerate(total_p), key=lambda x: x[1])
+recommand = []
+name = []
+for i in a:
+  if rc[i[0]][0] in name:
+    pass
+  else :
+    name.append(rc[i[0]][0])
+    recommand.append(rc[i[0]])
+recommand = random.sample(recommand, 5)
+
+for i in range(0,len(recommand)):
+  recommand[i][1]["prod_name"] = recommand[i][0]
+recommand = list(zip(*recommand))[1]
+print(recommand)
