@@ -24,7 +24,7 @@ pd.set_option('display.max_colwidth', None)
 
 my_vit = sys.argv[1]
 my_vit_contain = sys.argv[2]
-print(my_vit_contain)
+print(json.loads(my_vit_contain))
 
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
 
