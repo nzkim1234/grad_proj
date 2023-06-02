@@ -11,7 +11,7 @@ module.exports = {
         });
         result.stdout.on('data', function(data) {
             console.log(data.toString());
-            return res.send(data.toString()).status(200).end();
+            return res.send(data.toString()).end();
         });
     },
 
