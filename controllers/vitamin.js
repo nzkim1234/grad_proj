@@ -6,7 +6,7 @@ const sharp = require('sharp');
 module.exports = {
     postSearchVitamin: async(req, res, next) => {
         const spawn = require('child_process').spawn;
-        const result = spawn('python3', ['controllers/find.py', req.body.finddata]);
+        const result = spawn('python', ['controllers/find.py', req.body.finddata]);
         result.stdout.on('data', function(data) {
             console.log(data.toString());
             return res.send(data.toString()).status(200).end();
