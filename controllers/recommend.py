@@ -14,9 +14,8 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', None)
 
-my_vit = sys.argv[1]
-my_vit_contain = json.loads(sys.argv[2])
-
+my_vit = sys.argv[2]
+my_vit_contain = json.loads(sys.argv[1])
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
 
 dic = {
@@ -349,6 +348,6 @@ for i in range(0,len(recommand)):
 #for i in range(0, len(recommand)):
   #print(recommand[i][1])
 
-print('-------------------------------')
 recommand = list(list(zip(*recommand))[1])
-print(recommand)
+dumped = json.dumps(recommand)
+print(dumped)
