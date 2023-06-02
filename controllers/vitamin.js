@@ -4,9 +4,9 @@ const fs = require('fs');
 const sharp = require('sharp');
 
 module.exports = {
-    postSearchVitamin: async(req, res, next) => {
+    getSearchVitamin: async(req, res, next) => {
         const spawn = require('child_process').spawn;
-        const result = spawn('python3', ['controllers/find.py', req.body.finddata], {
+        const result = spawn('python3', ['controllers/find.py', req.query.prodname], {
             env:{PYTHONPATH: '/home/ubuntu/.local/lib/python3.10/site-packages'}
         });
         result.stdout.on('data', function(data) {

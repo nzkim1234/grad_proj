@@ -5,15 +5,14 @@ import json
 import pandas as pd
 import sys
 
-from apiclient.discovery import build
 import numpy as np
 import random
 import re
 
-pd.describe_option()
+#pd.describe_option()
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
 
 # 제품 명을 입력하세요.
 name =  sys.argv[1]
@@ -32,24 +31,28 @@ for i in str:
   if data['I0030']['total_count'] == '0':
     pass
   else :
-    dfa1 = pd.json_normalize(data['I0030']['row'])[['PRDLST_NM','STDR_STND']]
+    dfa1 = pd.json_normalize(data['I0030']['row'])[['PRDLST_NM','STDR_STND','NTK_MTHD']]
     dfa0 = pd.concat([dfa0,dfa1])
     dfa0 = dfa0.reset_index(drop=True)
     key += 1
     del [[dfa1]]
 
-nut = dfa0[dfa0['PRDLST_NM'] == name].head(1)
+nut = dfa0.loc[dfa0['PRDLST_NM'] == name].head(1)
+mthd = nut['NTK_MTHD'].to_string()
 
-nm = nut['STDR_STND'].to_string().split('성상')
+nm = nut['STDR_STND'].to_string().split('n')
 for i in range(0, len(nm)):
   nm[i] = nm[i].replace('｛',' ')
   nm[i] = nm[i].replace('｝',' ')
   nm[i] = nm[i].replace(',','')
   nm[i] = nm[i].replace(' ','')
   nm[i] = nm[i].replace('표시량','')
+  nm[i] = nm[i].replace('80~','')
+  nm[i] = nm[i].replace('80～','')
+  nm[i] = nm[i].replace('120%','')
+  nm[i] = nm[i].replace('150%','')
+  nm[i] = nm[i].replace('180%','')
   nm[i] = nm[i].replace('\\', '')
-  nm[i] = nm[i].replace('~', '')
-  nm[i] = nm[i].replace('%', '')
   nm[i] = re.sub("\(|\)|\{|\}","", nm[i])
 
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
@@ -197,6 +200,11 @@ mypercent = { "vitaminA" : 0.0,
 "chrome" : 0.0
 }
 
+pattern = '\d정'
+r = re.compile(pattern)
+take = re.findall('\d',r.findall(mthd)[0])[0]
+my['intake_per_day'] = int(take)
+
 aa = []
 aaa = []
 num = 0
@@ -215,7 +223,10 @@ for i in nm:
         my[dic[j]] += float(re.findall(r'\d+(?:[,.]\d+)?', aaa[num])[-1])
         num += 1
 
-if my:
-    print(my)
+if aaa:
+    my['success'] = 1
+
 else:
-    print("None")
+    my['success'] = 0
+
+print(my)
