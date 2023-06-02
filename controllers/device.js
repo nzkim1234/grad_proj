@@ -17,7 +17,7 @@ client.on('message', function (topic, message) {
         case 'fromdevice':
             const receive = message.toString().split(" ");
             console.log(receive);
-            const seq = pasreInt(receive[0])
+            const seq = parseInt(receive[0])
             const vseq = parseInt(receive[1])
             const taken = parseInt(receive[2])
             db.query(`UPDATE ${seq}_data SET taken = ${taken} WHERE (vseq = '${vseq}');`)
