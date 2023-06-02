@@ -360,4 +360,4 @@ for i in range(0, len(recommand)):
 
 print('-------------------------------')
 recommand = list(list(zip(*recommand))[1])
-print(type(recommand))
+print(recommand)
