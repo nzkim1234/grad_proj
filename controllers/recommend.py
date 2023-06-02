@@ -355,5 +355,9 @@ recommand = random.sample(recommand, 5)
 
 for i in range(0,len(recommand)):
   recommand[i][1]["prod_name"] = recommand[i][0]
+for i in range(0, len(recommand)):
+  print(recommand[i][1])
+
+print('-------------------------------')
 recommand = list(zip(*recommand))[1]
 print(recommand)
