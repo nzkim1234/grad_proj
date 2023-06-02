@@ -32,8 +32,12 @@ client.on('message', function (topic, message) {
 
 module.exports = {
     postSendDevice: async(req, res, next) => {
-        const [seq, box, intake, product_name] = [req.body.seq, req.body.box, req.body.intake, req.body.productname];
-        client.publish('todevice', `${seq} ${box} ${intake} ${product_name}`, (err) => {
+        const [seq, box, intake, vseq] = [req.body.seq, req.body.box, req.body.intake, req.body.vseq];
+        var test = '';
+        for(i = 0; i < box.length; i++){
+            test += `${box[i]}${intake[i]}${vseq[i]} `
+        }
+        client.publish('todevice', `${seq} ${test} `, (err) => {
             if (err) {
             console.log(err);
             return res.send(400).end();
