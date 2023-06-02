@@ -13,10 +13,6 @@ module.exports = {
             console.log(data.toString());
             return res.send(data.toString()).status(200).end();
         });
-        result.stderr.on('data', function(data) {
-            console.log(data.toString());
-            return res.send(data.toString()).status(400).end();
-        });
     },
 
     postAddVitamin : async (req, res, next) => {
