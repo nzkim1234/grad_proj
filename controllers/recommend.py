@@ -194,7 +194,7 @@ nutri = { "vitaminA" : 0.0,
 "chrome" : 0.0
 }
 
-for i in my:
+for i in my_vit_contain:
   # print(my[i], day_male[i])
   mypercent[i] = my_vit_contain[i] / day_male[i] * 100
 
