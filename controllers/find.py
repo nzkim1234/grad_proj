@@ -224,7 +224,7 @@ for i in nm:
         my[dic[j]] += float(re.findall(r'\d+(?:[,.]\d+)?', aaa[num])[-1])
         num += 1
 
-if aaa:
-    print(aaa)
+if my:
+    print(my)
 else:
     print("None")

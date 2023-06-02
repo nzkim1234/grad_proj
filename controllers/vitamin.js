@@ -5,9 +5,16 @@ const sharp = require('sharp');
 
 module.exports = {
     postSearchVitamin: async(req, res, next) => {
-        const result = require('child_process').spawn('python3', ['./find.py', '센트룸 맨']);
-        console.log(result);
-        return res.send(result).end();
+        const spawn = require('child_process').spawn;
+        const result = spawn('python3', ['controllers/find.py', req.body.finddata]);
+        result.stdout.on('data', function(data) {
+            console.log(data.toString());
+            return res.send(data.toString()).status(200).end();
+        });
+        result.stderr.on('data', function(data) {
+            console.log(data.toString());
+            return res.send(data.toString()).status(400).end();
+        });
     },
 
     postAddVitamin : async (req, res, next) => {
