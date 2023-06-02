@@ -229,4 +229,4 @@ if aaa:
 else:
     my['success'] = 0
 
-print(my)
+print(json.loads(my))
