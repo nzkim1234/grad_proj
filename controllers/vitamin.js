@@ -89,6 +89,7 @@ module.exports = {
         const result = spawn('python3', ['controllers/recommend.py', vitamin_list, vitaminContain], {
             env:{PYTHONPATH: '/home/ubuntu/.local/lib/python3.10/site-packages'}
         });
+        console.log(result)
         console.log(vitaminContain)
         console.log(vitamin_list)
     }
