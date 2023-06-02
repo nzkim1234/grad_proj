@@ -25,7 +25,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', -1)
 
 # 제품 명을 입력하세요.
-name = sys.argv[1]
+name =  sys.argv[1]
 str = name.split()
 startnum = 1
 endnum = 1000
@@ -137,7 +137,7 @@ my = { "vitaminA" : 0.0,
 "chrome" : 0.0
 }
 day_male = { "vitaminA" : 1000.0 ,
-"vitaminD" : 25.0 , 
+"vitaminD" : 25.0 ,
 "vitaminE" : 15.0 ,
 "vitaminK" : 75.0 ,
 "vitaminB1" : 3.0 ,
@@ -218,10 +218,13 @@ for i in nm:
     r = re.compile(pattern)
     if r.search(i) != None:
       aa.append(r.findall(i))
-      if j in dic:  
+      if j in dic:
         aaa.append(aa[num][0])
         aaa[num] = aaa[num].replace(j, dic[j])
         my[dic[j]] += float(re.findall(r'\d+(?:[,.]\d+)?', aaa[num])[-1])
         num += 1
 
-print(aaa)
+if aaa:
+    print(aaa)
+else:
+    print("None")

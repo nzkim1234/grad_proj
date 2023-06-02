@@ -5,7 +5,7 @@ const sharp = require('sharp');
 
 module.exports = {
     postSearchVitamin: async(req, res, next) => {
-        const result = require('child_process').spawn('python', ['./find.py', '샌트롬 ']);
+        const result = require('child_process').spawn('python3', ['./find.py', '센트룸 맨']);
         console.log(result);
         return res.send(result).end();
     },
