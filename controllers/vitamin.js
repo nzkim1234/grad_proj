@@ -93,7 +93,7 @@ module.exports = {
         console.log(vitamin_list)
         result.stdout.on('data', function(data) {
             console.log(data.toString());
-           // return res.send(data.toString()).end();
+           return res.send(data.toString()).end();
         });
         result.stderr.on('data', function(data) {
             console.log(data.toString());
