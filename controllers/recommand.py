@@ -13,16 +13,16 @@ import pprint
 import json
 import pandas as pd
 
-from apiclient.discovery import build
 import numpy as np
 import random
+import re
 
-pd.describe_option()
+# pd.describe_option()
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
 
-my_med = ['센트룸 맨']
+my_med = ['센트룸 프로 실버']
 
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
 
@@ -76,20 +76,20 @@ dic_adv = {
 "chrome" : "크롬"
 }
 
-my = { "vitaminA" : 1200.0,
-"vitaminD" : 15.0,
-"vitaminE" : 24.0,
-"vitaminK" : 130.0,
+my = { "vitaminA" : 300.0,
+"vitaminD" : 3.0,
+"vitaminE" : 6.0,
+"vitaminK" : 65.0,
 "vitaminB1" : 1.0,
 "vitaminB2" : 1.0,
 "vitaminB6" : 3.0,
 "vitaminB12" : 2.0,
-"vitaminC" : 2000.0,
-"nicotinic_acid" : 24.0,
+"vitaminC" : 600.0,
+"nicotinic_acid" : 12.0,
 "pantothenic" : 7.0,
-"folic_acid" : 500.0,
+"folic_acid" : 300.0,
 "biotin" : 50.0,
-"calcium" : 500.0,
+"calcium" : 300.0,
 "magnesium" : 340.0,
 "iron" : 40.0,
 "copper" : 2.0,
@@ -168,6 +168,29 @@ mypercent = { "vitaminA" : 0.0,
 "molybdenum" : 0.0,
 "chrome" : 0.0
 }
+nutri = { "vitaminA" : 0.0,
+"vitaminD" : 0.0,
+"vitaminE" : 0.0,
+"vitaminK" : 0.0,
+"vitaminB1" : 0.0,
+"vitaminB2" : 0.0,
+"vitaminB6" : 0.0,
+"vitaminB12" : 0.0,
+"vitaminC" : 0.0,
+"nicotinic_acid" : 0.0,
+"pantothenic" : 0.0,
+"folic_acid" : 0.0,
+"biotin" : 0.0,
+"calcium" : 0.0,
+"magnesium" : 0.0,
+"iron" : 0.0,
+"copper" : 0.0,
+"selenium" : 0.0,
+"iodine" : 0.0,
+"manganese" : 0.0,
+"molybdenum" : 0.0,
+"chrome" : 0.0
+}
 
 for i in my:
   # print(my[i], day_male[i])
@@ -222,3 +245,89 @@ for i in range(6):
     del bb[bb.index(max(bb))]
 del rec[0]
 print(rec)
+
+bb = []
+rec = []
+for i in range(0, len(dfa0)):
+  num = 0
+  for j in new_str:
+    if j in dfa0['STDR_STND'][i]:
+      num += 1
+  bb.append(num)
+for i in range(6):
+  if len(new_str) == 1:
+    rec.append(dfa0.loc[random.randrange(0, len(dfa0))])
+  elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_med:
+    del bb[bb.index(max(bb))]
+    rec.append(dfa0.loc[bb.index(max(bb))])
+  else:
+    rec.append(dfa0.loc[bb.index(max(bb))].to_list())
+    # print(bb.index(max(bb)),max(bb))
+    del bb[bb.index(max(bb))]
+del rec[0]
+
+for i in range(0, len(rec)):
+  nutri.update({}.fromkeys(nutri, 0))
+  aa = []
+  aa = rec[i][1].split('n')
+  for j in range(0, len(rec[i][1].split('n'))):
+    aa[j] = aa[j].replace('｛',' ')
+    aa[j] = aa[j].replace('｝',' ')
+    aa[j] = aa[j].replace(',','')
+    aa[j] = aa[j].replace(' ','')
+    aa[j] = aa[j].replace('표시량','')
+    aa[j] = aa[j].replace('80~','')
+    aa[j] = aa[j].replace('80～','')
+    aa[j] = aa[j].replace('120%','')
+    aa[j] = aa[j].replace('150%','')
+    aa[j] = aa[j].replace('180%','')
+    aa[j] = aa[j].replace('\\', '')
+    aa[j] = re.sub("\(|\)|\{|\}","", aa[j])
+  cc = []
+  ccc = []
+  num = 0
+  for n in aa:
+    for m in vita:
+      pattern = f'{m}:.*\d+[㎎㎍um]*g*\w*'
+      # pattern = f'{m}:.*\d+[㎎㎍um]*g*\w*/'
+      r = re.compile(pattern)
+      if r.search(n) != None:
+        cc.append(r.findall(n))
+        pattern = f'{m}:.*\d+[㎎㎍um]*g*.*/'
+        r = re.compile(pattern)
+        if r.search(n) != None:
+          ind = -2
+        else: ind = -1
+        if m in dic:  
+          ccc.append(cc[num][0])
+          ccc[num] = ccc[num].replace(m, dic[m])
+          nutri[dic[m]] = float(re.findall(r'\d+(?:[.]\d+)?', ccc[num])[0])
+          num += 1        
+  rec[i][1] = nutri
+  rec[i][1] = nutri.copy()
+print(rec)
+
+# # 현재 영양소 상태 계산
+# current_nutrients = my.copy()
+# for nutrient in rec:
+#     nutrient_info = nutrient[1]
+#     for key, value in nutrient_info.items():
+#         current_nutrients[key] += value
+
+# # 부족한 영양소 찾기
+# def find_deficient_nutrients(nutrients, daily_values):
+#     deficient_nutrients = {}
+#     for key, value in nutrients.items():
+#         if value < daily_values[key]:
+#             deficient_amount = daily_values[key] - value
+#             deficient_nutrients[key] = deficient_amount
+#     return deficient_nutrients
+
+# deficient_nutrients = find_deficient_nutrients(current_nutrients, day_male)  # 혹은 day_female
+
+# if len(deficient_nutrients) == 0:
+#     print("부족한 영양소가 없습니다!")
+# else:
+#     print("부족한 영양소:")
+#     for key, value in deficient_nutrients.items():
+#         print(f"{dic_adv[key]}: {value}")
