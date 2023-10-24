@@ -30,6 +30,30 @@ app
 .use(cookieParser())
 .use(express.static(path.join(__dirname, 'public')));
 
+db.query('SELECT * FROM users', (err, row) => {
+  if (err) {
+    db.query(`CREATE TABLE users (
+      seq int NOT NULL AUTO_INCREMENT,
+      name varchar(45) NOT NULL,
+      birth int NOT NULL,
+      gender tinyint NOT NULL,
+      id varchar(45) NOT NULL,
+      pw varchar(500) NOT NULL,
+      default_img varchar(45) DEFAULT 'default_image',
+      serial_id bigint DEFAULT NULL,
+      created_time datetime DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY (seq,id),
+      UNIQUE KEY seq_UNIQUE (seq),
+      UNIQUE KEY id_UNIQUE (id),
+      UNIQUE KEY serial_num_UNIQUE (serial_id)
+    )`, (err, row) => {
+      if (err) {
+        console.log(err);
+      }
+    })
+  }
+});
+
 app
 .use('/', indexRouter)
 .use('/users', usersRouter)
