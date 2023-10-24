@@ -8,6 +8,7 @@ import numpy as np
 import random
 import re
 import heapq
+import joblib
 
 # pd.describe_option()
 pd.set_option('display.max_rows', None)
@@ -183,6 +184,29 @@ nutri = { "vitaminA" : 0.0,
 "molybdenum" : 0.0,
 "chrome" : 0.0
 }
+mystate = { "vitaminA" : 0.0,
+"vitaminD" : 0.0,
+"vitaminE" : 0.0,
+"vitaminK" : 0.0,
+"vitaminB1" : 0.0,
+"vitaminB2" : 0.0,
+"vitaminB6" : 0.0,
+"vitaminB12" : 0.0,
+"vitaminC" : 0.0,
+"nicotinic_acid" : 0.0,
+"pantothenic" : 0.0,
+"folic_acid" : 0.0,
+"biotin" : 0.0,
+"calcium" : 0.0,
+"magnesium" : 0.0,
+"iron" : 0.0,
+"copper" : 0.0,
+"selenium" : 0.0,
+"iodine" : 0.0,
+"manganese" : 0.0,
+"molybdenum" : 0.0,
+"chrome" : 0.0
+}
 
 for i in my_vit_contain.keys():
   mypercent[i] = my_vit_contain[i] / day_male[i] * 100
@@ -194,6 +218,11 @@ for i in mypercent:
 if len(new_str) == 0:
   print("잘 먹고 계십니다!")
   quit()
+
+for i in my:
+  # print(my[i], day_male[i])
+  if day_male[i] - my[i] < 0 : mystate[i] = 0
+  else : mystate[i] = day_male[i] - my[i]
 
 startnum = 1
 endnum = 1000
@@ -214,45 +243,28 @@ for i in new_str:
     key += 1
     del [[dfa1]]
 
-# bb = []
-# rec = []
-# for i in range(0, len(dfa0)):
-#   num = 0
-#   for j in new_str:
-#     if j in dfa0['STDR_STND'][i]:
-#       num += 1
-#   bb.append(num)
-# for i in range(6):
-#   if len(new_str) == 1:
-#     rec.append(dfa0['PRDLST_NM'][random.randrange(0, len(dfa0))])
-#   elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
-#     del bb[bb.index(max(bb))]
-#     rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
-#   else:
-#     rec.append(dfa0['PRDLST_NM'][bb.index(max(bb))])
-#     # print(bb.index(max(bb)),max(bb))
-#     del bb[bb.index(max(bb))]
-# del rec[0]
-
-# bb = []
-# rec = []
-# for i in range(0, len(dfa0)):
-#   num = 0
-#   for j in new_str:
-#     if j in dfa0['STDR_STND'][i]:
-#       num += 1
-#   bb.append(num)
-# for i in range(6):
-#   if len(new_str) == 1:
-#     rec.append(dfa0.loc[random.randrange(0, len(dfa0))])
-#   elif dfa0['PRDLST_NM'][bb.index(max(bb))] in my_vit:
-#     del bb[bb.index(max(bb))]
-#     rec.append(dfa0.loc[bb.index(max(bb))])
-#   else:
-#     rec.append(dfa0.loc[bb.index(max(bb))].to_list())
-#     # print(bb.index(max(bb)),max(bb))
-#     del bb[bb.index(max(bb))]
-# del rec[0]
+# 모든 영양제에서 찾는 부분
+# startnum = 1
+# endnum = 1000
+# apikey = '068fd1df5c964d369f3b'
+# #34244
+# key = 1
+# dfa0 = pd.DataFrame()
+# dfa1 = pd.DataFrame()
+# for i in range(1,36):
+#   endnum = i*1000
+#   url = f'http://openapi.foodsafetykorea.go.kr/api/{apikey}/I0030/json/{startnum}/{endnum}'
+#   contents = requests.get(url).text
+#   data = json.loads(contents)
+#   if data['I0030']['total_count'] == '0':
+#     pass
+#   else :
+#     dfa1 = pd.json_normalize(data['I0030']['row'])[['PRDLST_NM','STDR_STND']]
+#     dfa0 = pd.concat([dfa0,dfa1])
+#     dfa0 = dfa0.reset_index(drop=True)
+#     key += 1
+#     del [[dfa1]]
+#   startnum = endnum+1
 
 rc = dfa0.columns.values.tolist() + dfa0.values.tolist()
 rc.remove('PRDLST_NM')
@@ -298,56 +310,57 @@ for i in range(0, len(rc)):
   rc[i][1] = nutri
   rc[i][1] = nutri.copy()
 
-# 부족한 영양소 찾기
-
-def find_deficient_nutrients(nutrients, daily_values):
-  deficient_nutrients = {}
-  for key, value in nutrients.items():
-    if value < daily_values[key]:
-      deficient_amount = daily_values[key] - value
-      deficient_nutrients[key] = deficient_amount
-  return deficient_nutrients
-
-# 현재 영양소 상태 계산
-
-total_p = []
-
-for nutrient in rc:
-  current_nutrients = my.copy()
-  nutrient_info = nutrient[1]
-  for key, value in nutrient_info.items():
-      current_nutrients[key] += value
-
-  deficient_nutrients = find_deficient_nutrients(current_nutrients, day_male)  # 혹은 day_female
-
-  total = 0
-  if len(deficient_nutrients) == 0:
-    print("부족한 영양소가 없습니다!")
-  else:
-    # print("부족한 영양소:")
-    for key, value in deficient_nutrients.items():
-      # print(f"{dic_adv[key]}: {value}/{day_male[key]}")
-      # print(f"{dic_adv[key]}: {value/day_male[key]*100}")
-      total += value/day_male[key]*100
-  # print(total)
-  total_p.append(total)
-
-a = heapq.nsmallest(20, enumerate(total_p), key=lambda x: x[1])
-recommand = []
 name = []
-for i in a:
-  if (rc[i[0]][0] in name) | (rc[i[0]][0] in my_vit):
-    pass
-  else :
-    name.append(rc[i[0]][0])
-    recommand.append(rc[i[0]])
-recommand = random.sample(recommand, 5)
+for i in range(0,len(rc)) :
+  name.append(rc[i][0])
 
-for i in range(0,len(recommand)):
-  recommand[i][1]["prod_name"] = recommand[i][0]
-#for i in range(0, len(recommand)):
-  #print(recommand[i][1])
+sc = pd.DataFrame([list(rc[0][1].values()),
+                   list(rc[1][1].values()),
+                  list(rc[2][1].values())], columns = list(rc[0][1].keys()))
+for i in range(3,len(rc)):
+  sc.loc[i] = rc[i][1].values()
+sc['product'] = name
 
-recommand = list(list(zip(*recommand))[1])
-dumped = json.dumps(recommand)
-print(dumped)
+#모델 불러오기
+knn = joblib.load('knn_model2.pkl')
+cosine = joblib.load('cosine_model2.pkl')
+
+# knn 방식
+# 사용자의 현재 영양 상태 (mystate 변수)를 기반으로 영양제 추천 함수
+def recommend_nutritional_supplement(user_nutrition, model):
+    # 사용자의 영양 상태를 기반으로 예측
+    user_nutrition_df = pd.DataFrame(user_nutrition, index=[0])
+    product = model.predict(user_nutrition_df)
+
+    # 예측된 제품을 반환
+    return product[0]
+
+# 추천 영양제 얻기
+recommended_product = recommend_nutritional_supplement(mystate, knn)
+print(f"추천 영양제: {recommended_product}")
+
+#코사인 유사도 방식
+similarities = cosine
+# 가장 유사한 영양제의 인덱스를 찾음
+most_similar_index = np.argmax(similarities)
+
+# 해당 인덱스에 해당하는 영양제를 추천
+recommended_product = sc['product'].iloc[most_similar_index]
+
+print(f"추천 영양제: {recommended_product}")
+
+# 유클리드 유사도 방식?
+# 사용자의 영양 상태 벡터
+user_state = np.array(list(mystate.values()))
+
+# 제품의 영양소 데이터
+product_nutrition = sc.drop('product', axis=1).values
+
+# 유클리드 거리 계산
+distances = np.linalg.norm(product_nutrition - user_state, axis=1)
+
+# 최소 거리에 해당하는 제품 추출
+recommended_product_index = np.argmin(distances)
+recommended_product = sc.loc[recommended_product_index, 'product']
+
+print(f"추천 영양제: {recommended_product}")
