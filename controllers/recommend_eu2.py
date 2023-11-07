@@ -10,9 +10,9 @@ import heapq
 import sys
 
 # pd.describe_option()
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_colwidth', None)
+pd.set_option("display.max_rows", None)
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_colwidth", None)
 
 my_vit = sys.argv[2]
 my_vit_contain = json.loads(sys.argv[1])
@@ -194,7 +194,7 @@ for i in my_vit_contain.keys():
 
 new_str = []
 for i in mypercent:
-  if i == 'intake_per_day':
+  if i == "intake_per_day":
     pass
   elif mypercent[i] <= 0.0:
     new_str.append(dic_adv[i])
@@ -202,48 +202,47 @@ if len(new_str) == 0:
   print("잘 먹고 계십니다!")
   quit()
 
-vita_df = pd.read_csv('/content/drive/MyDrive/Senior_Project/vitamin.csv')
-mydf = pd.read_csv('/content/drive/MyDrive/Senior_Project/my_df.csv')
-recdf = pd.read_csv('/content/drive/MyDrive/Senior_Project/rec_df.csv')
+vita_df = pd.read_csv("controllers/vitamin.csv",index_col = 0)
+mydf = pd.read_csv("controllers/my_df.csv",index_col = 0)
+recdf = pd.read_csv("controllers/rec_df.csv",index_col = 0)
 
-vita_df = vita_df.drop('Unnamed: 0', axis=1)
-mydf = mydf.drop('Unnamed: 0', axis=1)
-recdf = recdf.drop('Unnamed: 0', axis=1)
-
-if mydf.to_dict('records') == [mystate]:
-  dumped = json.dumps(recdf.to_dict('records'))
+if mydf.to_dict("records") == [mystate]:
+  dumped = json.dumps(recdf.to_dict("records"))
   print(dumped)
 else:
   for i in my_vit:
-    vita_df = vita_df[vita_df['product'] != i]
+    vita_df = vita_df[vita_df["prod_name"] != i]
     vita_df = vita_df.reset_index(drop=True)
+    
   recommended_index = []
   ans = vita_df
-  euclid_recommended_product = ''
+  euclid_recommended_product = ""
 
   for i in range(5):
     # 사용자의 영양 상태 벡터
     user_state = np.array(list(mystate.values()))
 
     # 제품의 영양소 데이터
-    vita_df = vita_df[vita_df['product'] != euclid_recommended_product]
-    product_nutrition = vita_df.drop('product', axis=1).values
+    vita_df = vita_df[vita_df["prod_name"] != euclid_recommended_product]
+    product_nutrition = vita_df.drop("prod_name", axis=1).values
 
     # 유클리드 거리 계산
     distances = np.linalg.norm(product_nutrition - user_state, axis=1)
 
     # 최소 거리에 해당하는 제품 추출
     recommended_index.append(np.argmin(distances))
-    euclid_recommended_product = vita_df.loc[np.argmin(distances)]['product']
+    euclid_recommended_product = vita_df.loc[np.argmin(distances)]["prod_name"]
 
+  #나의 현재 부족한 영양상태와 현재 추천하는 영양제 데이터 저장 
+  # my_df = pd.DataFrame(columns=mystate.keys())
+  # my_df.loc[0] = mystate.values()
+  # rec_df = ans.loc[recommended_index]
+  # rec_df = rec_df.reset_index(drop=True)
+
+  # my_df.to_csv("/content/drive/MyDrive/Senior_Project/my_df.csv")
+  # rec_df.to_csv("/content/drive/MyDrive/Senior_Project/rec_df.csv")
+  # dumped = json.dumps(rec_df.to_dict("records"))
   dumped = json.dumps(ans.loc[recommended_index].to_dict('records'))
   print(dumped)
 
-  #나의 현재 부족한 영양상태와 현재 추천하는 영양제 데이터 저장 
-  my_df = pd.DataFrame(columns=mystate.keys())
-  my_df.loc[0] = mystate.values()
-  rec_df = ans.loc[recommended_index]
-  rec_df = rec_df.reset_index(drop=True)
-
-  my_df.to_csv("/content/drive/MyDrive/Senior_Project/my_df.csv")
-  rec_df.to_csv("/content/drive/MyDrive/Senior_Project/rec_df.csv")
+  
