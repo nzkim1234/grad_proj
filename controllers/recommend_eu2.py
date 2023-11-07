@@ -8,14 +8,17 @@ import random
 import re
 import heapq
 import sys
+import pickle
 
 # pd.describe_option()
 pd.set_option("display.max_rows", None)
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_colwidth", None)
 
-my_vit = sys.argv[2]
-my_vit_contain = json.loads(sys.argv[1])
+# my_vit = sys.argv[2]
+# my_vit_contain = json.loads(sys.argv[1])
+my_vit = ['센트룸 맨']
+my_vit_contain = { "vitaminA" : 1159.0, "vitaminD" : 10.0, "vitaminE" : 36.9, "vitaminK" : 50.0, "vitaminB1" : 3.7, "vitaminB2" : 4.6, "vitaminB6" : 4.9, "vitaminB12" : 25.0, "vitaminC" : 150.0, "nicotinic_acid" : 16.0, "pantothenic" : 13.6, "folic_acid" : 200.0, "biotin" : 54.0, "calcium" : 210.0, "magnesium" : 0.0, "iron" : 5.0, "copper" : 0.5,  "selenium" : 55.0, "iodine" : 150.0, "manganese" : 3.0, "molybdenum" : 50.0, "chrome" : 35.0 }
 
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
 
@@ -239,10 +242,18 @@ else:
   rec_df = ans.loc[recommended_index]
   rec_df = rec_df.reset_index(drop=True)
 
+# 저장된 knn_pkl 파일 불러오기
+  with open("controllers/knn_rec.pkl", "rb") as f:
+    recommendations = pickle.load(f)
+
+# 추천 결과 출력
+  result = pd.concat([rec_df,recommendations])
+  result = result.drop_duplicates()
+  result = result.reset_index(drop=True)
+
+  result.to_csv("controllers/rec_df.csv")
   my_df.to_csv("controllers/my_df.csv")
-  rec_df.to_csv("controllers/rec_df.csv")
-  #dumped = json.dumps(rec_df.to_dict("records"))
-  dumped = json.dumps(ans.loc[recommended_index].to_dict('records'))
+  dumped = json.dumps(result.to_dict("records"))
   print(dumped)
 
   
