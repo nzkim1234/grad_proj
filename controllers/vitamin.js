@@ -87,7 +87,7 @@ module.exports = {
         const [seq, vitamin_list, vitaminContain] = [req.query.seq, req.query.vitaminlist, req.query.vitamincontain];
 	console.log(vitaminContain, vitamin_list);
 	const spawn = require('child_process').spawn;
-        const result = spawn('python3', ['controllers/recommend.py', vitamin_list, vitaminContain], {
+        const result = spawn('python3', ['controllers/r.py', vitamin_list, vitaminContain], {
             env:{PYTHONPATH: '/home/ubuntu/.local/lib/python3.9/site-packages'}
         });
         result.stdout.on('data', function(data) {
@@ -95,7 +95,8 @@ module.exports = {
            return res.send(data.toString()).end();
         });
         result.stderr.on('data', function(data) {
-            console.log('recommend fail');
+	    console.log('err');
+            console.log(data.toString());
         });
     }
 
