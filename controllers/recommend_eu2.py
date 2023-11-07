@@ -234,14 +234,14 @@ else:
     euclid_recommended_product = vita_df.loc[np.argmin(distances)]["prod_name"]
 
   #나의 현재 부족한 영양상태와 현재 추천하는 영양제 데이터 저장 
-  # my_df = pd.DataFrame(columns=mystate.keys())
-  # my_df.loc[0] = mystate.values()
-  # rec_df = ans.loc[recommended_index]
-  # rec_df = rec_df.reset_index(drop=True)
+  my_df = pd.DataFrame(columns=mystate.keys())
+  my_df.loc[0] = mystate.values()
+  rec_df = ans.loc[recommended_index]
+  rec_df = rec_df.reset_index(drop=True)
 
-  # my_df.to_csv("/content/drive/MyDrive/Senior_Project/my_df.csv")
-  # rec_df.to_csv("/content/drive/MyDrive/Senior_Project/rec_df.csv")
-  # dumped = json.dumps(rec_df.to_dict("records"))
+  my_df.to_csv("controllers/my_df.csv")
+  rec_df.to_csv("controllers/rec_df.csv")
+  #dumped = json.dumps(rec_df.to_dict("records"))
   dumped = json.dumps(ans.loc[recommended_index].to_dict('records'))
   print(dumped)
 

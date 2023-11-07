@@ -202,8 +202,11 @@ mypercent = { "vitaminA" : 0.0,
 
 pattern = '\d정'
 r = re.compile(pattern)
-take = re.findall('\d',r.findall(mthd)[0])[0]
-my['intake_per_day'] = int(take)
+try: 
+    take = re.findall('\d',r.findall(mthd)[0])[0]
+    my['intake_per_day'] = int(take)
+except:
+    my['success'] = 0
 
 aa = []
 aaa = []
@@ -229,9 +232,5 @@ if aaa:
 else:
     my['success'] = 0
 
-<<<<<<< HEAD
-print(json.dumps(my))
-=======
-my = json.loads(my)
+my = json.dumps(my)
 print(my)
->>>>>>> 36453afdf8a37177056d610ca476b7235bb4328b
