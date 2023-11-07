@@ -229,4 +229,9 @@ if aaa:
 else:
     my['success'] = 0
 
+<<<<<<< HEAD
 print(json.dumps(my))
+=======
+my = json.loads(my)
+print(my)
+>>>>>>> 36453afdf8a37177056d610ca476b7235bb4328b
