@@ -4,6 +4,7 @@ const fs = require('fs');
 module.exports = {
     getProfileImage : async (req, res, next) => {
         const profile_img = req.query.profile_img;
+	console.log(profile_img);
         console.log(`${path.resolve(__dirname, "../public/images/")}/${profile_img}_image.png`);
         const fileExist = (fs.existsSync(`${path.resolve(__dirname, "../public/images/")}/${profile_img}_image.png`));
         var image = null;

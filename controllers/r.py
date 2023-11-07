@@ -33,8 +33,8 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', None)
 
-my_vit = sys.argv[2]
-my_vit_contain = json.loads(sys.argv[1])
+my_vit = [ '센트룸 맨' ]
+my_vit_contain = {"vitaminD":10,"vitaminC":150,"iron":5,"copper":0,"vitaminA":1159,"magnesium":0,"selenium":55,"manganese":3,"vitaminE":36,"iodine":150,"molybdenum":50,"vitaminB1":3,"pantothenic":13,"chrome":35,"vitaminB2":4,"vitaminB6":4,"vitaminB12":25,"biotin":54,"nicotinic_acid":16,"folic_acid":200,"vitaminK":50,"calcium":210}
 # my_vit = ['센트룸 맨']
 vita = ["비타민A","비타민D", "비타민E", "비타민K", "비타민C", "비타민B1", "비타민B2", "나이아신", "판토텐산", "비타민B6", "비오틴", "비타민B12", "엽산", "칼슘", "마그네슘", "철", "구리", "망간", "요오드", "셀렌","셀레늄", "몰리브덴", "크롬"]
 
