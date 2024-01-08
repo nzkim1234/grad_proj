@@ -27,7 +27,7 @@
 - 
 # ✋🏻 iOS project
 
-- [Graduation-projcet](https://github.com/grgnjhyxxk/Graduation-Project)
+- [Graduation-project](https://github.com/grgnjhyxxk/Graduation-Project)
 
 # 🧾 Reference
 
