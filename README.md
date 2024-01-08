@@ -23,7 +23,11 @@
 
 # ✋🏻 Part
 
-- 백엔드
+- 백엔드 (Node.js)
+- 
+# ✋🏻 iOS project
+
+- [Graduation-projcet](https://github.com/grgnjhyxxk/Graduation-Project)
 
 # 🧾 Reference
 
