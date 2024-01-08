@@ -27,5 +27,5 @@
 
 # 🧾 Reference
 
-- [Graduation-Project.pdf](https://github.com/nzkim1234/grad_proj/blob/main/Grad_proj.pdf)
+- [Grad_proj.pdf](https://github.com/nzkim1234/grad_proj/blob/main/Grad_proj.pdf)
 본 졸업작품은 제 개인적인 창작물로써, 모든 저작권은 저에게 있으며, 무단 복제 및 도용은 금지됩니다.
